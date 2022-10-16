@@ -16,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.gabriel.game.Assets;
 import com.gabriel.game.objects.Bird;
 import com.gabriel.game.objects.Counter;
 import com.gabriel.game.objects.Pipe;
@@ -280,6 +281,7 @@ public class WorldGame {
 
         if (jump && birdInfo.state == Bird.STATE_NORMAL) {
             body.setLinearVelocity(0, Bird.JUMP_SPEED);
+            Assets.jumpSound.play();
         }
     }
 
@@ -309,10 +311,13 @@ public class WorldGame {
                 if (obj.state == Counter.STATE_NORMAL) {
                     obj.state = Counter.STATE_REMOVE;
                     score++;
+                    Assets.pointSound.play();
                 }
             } else {
                 if (birdInfo.state == Bird.STATE_NORMAL) {
                     birdInfo.hurt();
+                    Assets.loseSound.play();
+
                 }
             }
         }

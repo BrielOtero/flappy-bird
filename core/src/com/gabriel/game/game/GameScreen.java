@@ -24,6 +24,8 @@ public class GameScreen extends Screens {
         super(game);
         state = STATE_READY;
 
+        Assets.backMusic.play();
+
         world = new WorldGame();
         worldRenderer = new WorldGameRenderer(spriteBatch, world);
 
@@ -50,7 +52,7 @@ public class GameScreen extends Screens {
         spriteBatch.begin();
         String auxScore = world.score + "";
         float width = Assets.getTextWidth(auxScore);
-        Assets.font.draw(spriteBatch, auxScore, SCREEN_WIDTH / 2f - width, 700);
+        Assets.font.draw(spriteBatch, auxScore, SCREEN_WIDTH / 2f - width + 21, 680);
 
         // Assets.font.draw(spriteBatch, ""+world.bodies.size, 10, 200);
         spriteBatch.end();
