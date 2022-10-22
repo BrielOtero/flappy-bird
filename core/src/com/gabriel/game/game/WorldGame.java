@@ -231,15 +231,15 @@ public class WorldGame {
         for (Body body : bodies) {
 
             if (!worldBox.isLocked()) {
-                if (body.getUserData() instanceof Pipe){
+                if (body.getUserData() instanceof Pipe) {
                     Pipe obj = (Pipe) body.getUserData();
-                    if(obj.state == Pipe.STATE_REMOVE){
-                        pipes.removeValue(obj,true);
+                    if (obj.state == Pipe.STATE_REMOVE) {
+                        pipes.removeValue(obj, true);
                         worldBox.destroyBody(body);
                     }
-                }else if (body.getUserData() instanceof Counter){
+                } else if (body.getUserData() instanceof Counter) {
                     Counter obj = (Counter) body.getUserData();
-                    if(obj.state == Counter.STATE_REMOVE){
+                    if (obj.state == Counter.STATE_REMOVE) {
                         worldBox.destroyBody(body);
                     }
                 }
@@ -311,6 +311,12 @@ public class WorldGame {
                 if (obj.state == Counter.STATE_NORMAL) {
                     obj.state = Counter.STATE_REMOVE;
                     score++;
+                    if (score > GameScreen.maxScore) {
+                        GameScreen.maxScore = score;
+                        GameScreen.prefs.putInteger("maxScore",score);
+                        GameScreen.prefs.flush();
+
+                    }
                     Assets.pointSound.play();
                 }
             } else {

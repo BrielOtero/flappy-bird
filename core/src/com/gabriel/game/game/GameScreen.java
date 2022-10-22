@@ -1,6 +1,7 @@
 package com.gabriel.game.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.gabriel.game.Assets;
@@ -13,6 +14,11 @@ public class GameScreen extends Screens {
     static final int STATE_GAME_OVER = 2;
     int state;
 
+    public static int maxScore;
+
+    public static Preferences prefs = Gdx.app.getPreferences("My Preferences");
+
+
     WorldGame world;
     WorldGameRenderer worldRenderer;
 
@@ -23,6 +29,7 @@ public class GameScreen extends Screens {
     public GameScreen(MainFlappy game) {
         super(game);
         state = STATE_READY;
+        maxScore = prefs.getInteger("maxScore", 0);
 
         Assets.backMusic.play();
 
@@ -50,10 +57,18 @@ public class GameScreen extends Screens {
         spriteBatch.setProjectionMatrix(camera.combined);
 
         spriteBatch.begin();
-        String auxScore = world.score + "";
-        float width = Assets.getTextWidth(auxScore);
-        Assets.font.draw(spriteBatch, auxScore, SCREEN_WIDTH / 2f - width + 21, 680);
 
+        if (state == STATE_RUNNING) {
+            String auxScore = world.score + "";
+            float widthScore = Assets.getTextWidthFont(auxScore);
+            Assets.font.draw(spriteBatch, auxScore, SCREEN_WIDTH / 1.8f - widthScore , 680);
+        }
+
+        if (state == STATE_READY) {
+            String auxMaxScore = "Record: " + maxScore;
+            float widthMaxScore = Assets.getTextWidthSmallFont(auxMaxScore);
+            Assets.fontSmall.draw(spriteBatch, auxMaxScore, SCREEN_WIDTH / 1.3f - widthMaxScore, 170);
+        }
         // Assets.font.draw(spriteBatch, ""+world.bodies.size, 10, 200);
         spriteBatch.end();
     }
